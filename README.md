@@ -26,7 +26,7 @@ Sistem digital untuk merekod kehadiran guru dan staf sokongan secara tepat, telu
 | Rangka kerja | Next.js 16 (App Router) |
 | Bahasa | TypeScript 5 |
 | Gaya | Tailwind CSS 4 + shadcn/ui (New York) |
-| Pangkalan data | Prisma ORM + SQLite (dummy) |
+| Pangkalan data | Prisma ORM + Supabase (PostgreSQL) |
 | Carta | Recharts |
 | Ikon | Lucide React |
 | Notifikasi | Sonner |
@@ -49,11 +49,15 @@ Skeuomorfik profesional dengan tema hijau Islamik:
 # 1. Pasang kebergantungan
 bun install
 
-# 2. Sediakan pangkalan data (skema + benih data)
+# 2. Konfigurasi persekitaran
+cp .env.example .env
+# Edit .env dengan connection string Supabase anda
+
+# 3. Sediakan pangkalan data (skema + benih data)
 bun run db:push
 bun run seed
 
-# 3. Jalankan pelayan pembangunan
+# 4. Jalankan pelayan pembangunan
 bun run dev
 ```
 
@@ -75,8 +79,7 @@ Kata laluan lalai untuk semua akaun: **`Demo@1234`** (PIN kiosk: `1234`)
 
 ```
 ├─ prisma/
-│  ├─ schema.prisma          # 13 model pangkalan data
-│  └─ (custom.db)            # SQLite DB (dijana oleh db:push + seed)
+│  └─ schema.prisma          # 13 model pangkalan data (PostgreSQL)
 ├─ scripts/
 │  └─ seed.ts                # Benih data: 12 staf, 75 hari kehadiran, cuti, kalendar
 ├─ src/

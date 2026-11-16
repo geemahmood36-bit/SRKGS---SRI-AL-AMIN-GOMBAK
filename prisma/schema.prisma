@@ -1,13 +1,13 @@
 // Sistem Rekod Kehadiran Guru dan Staf (SRKGS)
 // Sekolah Rendah Islam Al-Amin Gombak
-// Pangkalan data dummy (SQLite) — boleh diganti dengan pangkalan data sebenar kemudian.
+// Pangkalan data: Supabase (PostgreSQL) — boleh diganti dengan pangkalan data sebenar kemudian.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
