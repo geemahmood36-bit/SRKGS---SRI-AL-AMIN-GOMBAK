@@ -1,0 +1,1489 @@
+     1→SEKOLAH RENDAH ISLAM AL-AMIN GOMBAK
+     2→
+     3→Gombak, Selangor Darul Ehsan, Malaysia
+     4→
+     5→DOKUMEN KEPERLUAN PRODUK
+     6→
+     7→(Product Requirement Document – PRD)
+     8→
+     9→Sistem Rekod Kehadiran Guru dan Staf
+    10→
+    11→Prototaip React dengan Pangkalan Data Dummy
+    12→
+    13→  -----------------------------------------------------------------------
+    14→  Perkara              Butiran
+    15→  -------------------- --------------------------------------------------
+    16→  Versi dokumen        1.0 (Draf Untuk Semakan)
+    17→
+    18→  Tarikh               16 November 2026
+    19→
+    20→  Disediakan oleh      Pentadbir Sekolah / Jurutera Perisian
+    21→
+    22→  Pelan pembangunan    React (SPA) – dijana dan dibangunkan menggunakan
+    23→                       z.ai (model GLM 5.2)
+    24→
+    25→  Status               Draf – menunggu kelulusan Pengetua / Guru Besar
+    26→
+    27→  Klasifikasi          Dalaman – Pentadbiran Sekolah
+    28→  -----------------------------------------------------------------------
+    29→
+    30→Jadual Kandungan
+    31→
+    32→Sejarah Semakan Dokumen
+    33→
+    34→  ------------------------------------------------------------------------
+    35→  Versi   Tarikh       Penulis                  Catatan
+    36→  ------- ------------ ------------------------ --------------------------
+    37→  0.1     10 Nov 2026  Pentadbir Sekolah        Pengumpulan keperluan awal
+    38→
+    39→  1.0     16 Nov 2026  Pentadbir Sekolah /      PRD lengkap untuk semakan
+    40→                       Jurutera Perisian        Pengetua
+    41→  ------------------------------------------------------------------------
+    42→
+    43→1. Ringkasan Eksekutif
+    44→
+    45→Sekolah Rendah Islam Al-Amin Gombak (seterusnya “Sekolah”) memerlukan
+    46→satu sistem digital untuk merekod kehadiran guru dan staf sokongan
+    47→secara tepat, telus dan mudah dilaporkan. Pada masa ini, rekod kehadiran
+    48→dipercayai dikendalikan secara manual (buku kehadiran atau lembaran
+    49→Excel), yang memakan masa, terdedah kepada kesilapan dan sukar
+    50→dianalisis.
+    51→
+    52→Dokumen ini menggariskan keperluan produk bagi Sistem Rekod Kehadiran
+    53→Guru dan Staf (SRKGS). Fasa pertama ialah prototaip berfungsi penuh yang
+    54→dibangunkan menggunakan React dengan pangkalan data dummy (data rekaan
+    55→yang disimpan dalam pelayar), supaya pihak pengurusan boleh menilai
+    56→aliran kerja, paparan dan laporan sebelum pelaburan pada pelayan dan
+    57→pangkalan data sebenar.
+    58→
+    59→+-----------------------------------------------------------------------+
+    60→| Hasil Utama Fasa 1                                                    |
+    61→|                                                                       |
+    62→| Aplikasi web responsif (komputer, tablet dan telefon) dalam Bahasa    |
+    63→| Malaysia.                                                             |
+    64→|                                                                       |
+    65→| Daftar masuk/keluar, pengurusan cuti, dashboard, laporan dan          |
+    66→| pengurusan data induk.                                                |
+    67→|                                                                       |
+    68→| Data dummy awal yang realistik (staf rekaan) dengan fungsi set semula |
+    69→| data demo.                                                            |
+    70→|                                                                       |
+    71→| Seni bina berlapis supaya data dummy boleh diganti dengan API dan     |
+    72→| pangkalan data sebenar tanpa menulis semula antara muka.              |
+    73→+-----------------------------------------------------------------------+
+    74→
+    75→2. Latar Belakang dan Pernyataan Masalah
+    76→
+    77→2.1 Latar belakang
+    78→
+    79→Sebagai sekolah rendah Islam, Sekolah mempunyai ciri operasi tersendiri:
+    80→waktu kerja khas pada hari Jumaat, penyesuaian waktu sepanjang Ramadan,
+    81→kalendar cuti sekolah dan cuti umum negeri Selangor. Pengurusan
+    82→kehadiran yang kemas penting untuk disiplin kerja dan penyediaan laporan
+    83→kepada guru besar dan HR
+    84→
+    85→2.2 Pernyataan masalah
+    86→
+    87→-   Proses manual – merekod, menyemak dan merumus kehadiran mengambil
+    88→    masa berjam-jam setiap bulan.
+    89→
+    90→-   Kesilapan dan ketidaktelusan – perlu semak banyak rekod
+    91→
+    92→-   Tiada pandangan masa nyata – pentadbir tidak dapat melihat siapa
+    93→    yang belum hadir pada pagi tersebut dengan cepat.
+    94→
+    95→-   Pengurusan cuti terpisah – permohonan, kelulusan dan baki cuti tidak
+    96→    dihubungkan dengan rekod kehadiran.
+    97→
+    98→-   Pelaporan sukar – tiada ringkasan lewat, tidak hadir dan trend
+    99→    mengikut individu, bulan.
+   100→
+   101→2.3 Peluang
+   102→
+   103→Satu sistem web ringan yang menggabungkan kehadiran, cuti dan laporan
+   104→akan mengurangkan beban kerja pentadbiran, meningkatkan integriti data
+   105→dan memberi pandangan yang berguna kepada Pengetua dan Penolong Kanan.
+   106→
+   107→3. Objektif dan Metrik Kejayaan
+   108→
+   109→3.1 Objektif
+   110→
+   111→-   Mendigitalkan rekod kehadiran harian guru dan staf dengan proses
+   112→    daftar masuk/keluar yang pantas.
+   113→
+   114→-   Menyediakan pandangan masa nyata kehadiran harian untuk pentadbir
+   115→    dan pengurusan.
+   116→
+   117→-   Menghubungkan permohonan cuti dan kelulusan dengan rekod kehadiran
+   118→    secara automatik.
+   119→
+   120→-   Menjana laporan harian, bulanan dan mengikut individu/jabatan dengan
+   121→    eksport CSV dan cetakan.
+   122→
+   123→-   Membina asas teknikal yang boleh dinaik taraf kepada sistem produksi
+   124→    dengan pangkalan data sebenar.
+   125→
+   126→3.2 Metrik kejayaan (sasaran cadangan)
+   127→
+   128→  ------------------------------------------------------------------------------
+   129→  Metrik                      Garis dasar       Sasaran Fasa 1  Cara ukur
+   130→                              (anggaran)                        
+   131→  --------------------------- ----------------- --------------- ----------------
+   132→  Masa daftar masuk seorang   30–60 saat (kad   ≤ 10 saat       Pemerhatian
+   133→  staf                        akses)                            semasa UAT
+   134→
+   135→  Masa penyediaan laporan     1–2 jam           ≤ 1 minit       Ujian laporan
+   136→  bulanan                                                       dalam sistem
+   137→
+   138→  Ketepatan rekod berbanding  Tidak diukur      ≥ 98% dalam     Semakan sampel
+   139→  rekod sebenar                                 tempoh pilot    oleh admin
+   140→
+   141→  Penerimaan pengguna (guru   –                 ≥ 90%           Statistik log
+   142→  dan staf)                                     menggunakan     masuk
+   143→                                                sistem          
+   144→                                                sepanjang pilot 
+   145→
+   146→  Skor kepuasan pengguna      –                 ≥ 4.0           Borang maklum
+   147→  (skala 1–5)                                                   balas UAT
+   148→
+   149→  Skor Lighthouse             –                 ≥ 85 / ≥ 90     Audit Lighthouse
+   150→  (Prestasi/Kebolehcapaian)                                     
+   151→  ------------------------------------------------------------------------------
+   152→
+   153→Nota: garis dasar ialah anggaran dan perlu disahkan oleh pihak sekolah
+   154→semasa kajian awal (Fasa 0).
+   155→
+   156→4. Skop Produk
+   157→
+   158→4.1 Dalam skop (Fasa 1 – Prototaip)
+   159→
+   160→-   Pengesahan log masuk dan kawalan akses berasaskan peranan.
+   161→
+   162→-   Rekod kehadiran: daftar masuk, daftar keluar, mod kiosk dan guru
+   163→    keluar pada waktu bekerja
+   164→
+   165→-   Permohonan, kelulusan dan penolakan cuti serta kebenaran keluar
+   166→    waktu kerja.
+   167→
+   168→-   Dashboard harian dan bulanan, serta laporan dengan eksport CSV dan
+   169→    cetakan/PDF.
+   170→
+   171→-   Pengurusan data induk: staf, jabatan/panitia, kalendar cuti, waktu
+   172→    kerja.
+   173→
+   174→-   Notifikasi dalam aplikasi dan log audit.
+   175→
+   176→-   Pangkalan data dummy dengan data benih dan fungsi set semula.
+   177→
+   178→4.2 Luar skop (Fasa 1)
+   179→
+   180→-   Pangkalan data pelayan sebenar, pengesahan SSO dan hosting produksi.
+   181→
+   182→-   Peranti biometrik (cap jari/wajah) dan pengesahan
+   183→    geolokasi/geofence.
+   184→
+   185→-   Integrasi dengan sistem gaji, eSPeKS/SPPBS atau sistem kerajaan
+   186→    lain.
+   187→
+   188→-   Hantaran emel/WhatsApp/SMS sebenar (hanya notifikasi dalam
+   189→    aplikasi).
+   190→
+   191→-   Aplikasi mudah alih asli (hanya web responsif/PWA ringkas
+   192→    dicadangkan sebagai pilihan).
+   193→
+   194→-   Pengurusan kehadiran murid.
+   195→
+   196→5. Pihak Berkepentingan dan Peranan Pengguna
+   197→
+   198→5.1 Pihak berkepentingan
+   199→
+   200→  ---------------------------------------------------------------------------------
+   201→  Pihak                           Kepentingan                Peranan dalam projek
+   202→  ------------------------------- -------------------------- ----------------------
+   203→  Pengetua / Guru Besar           Pemantauan disiplin dan    Penaja projek, pelulus
+   204→                                  kelulusan cuti             
+   205→
+   206→  Penolong Kanan                  Pemantauan harian, guru    Penyelia, penguji UAT
+   207→  (Pentadbiran/HEM/Kokurikulum)   ganti                      
+   208→
+   209→  Pentadbir / Pembantu Tadbir     Pengurusan data dan        Pemilik produk,
+   210→                                  laporan                    pengguna utama
+   211→
+   212→  Guru akademik, guru             Daftar kehadiran, mohon    Pengguna akhir
+   213→  agama/tahfiz                    cuti                       
+   214→
+   215→  Staf sokongan                   Daftar kehadiran, mohon    Pengguna akhir
+   216→                                  cuti                       
+   217→
+   218→  Lembaga Pengelola / Pemilik     Laporan pengurusan         Penerima laporan
+   219→  sekolah                                                    
+   220→
+   221→  Jurutera perisian               Reka bentuk dan            Pembangun
+   222→                                  pembangunan                
+   223→  ---------------------------------------------------------------------------------
+   224→
+   225→5.2 Peranan sistem dan hak akses
+   226→
+   227→  ------------------------------------------------------------------------
+   228→  Peranan     Penerangan             Hak akses utama
+   229→  ----------- ---------------------- -------------------------------------
+   230→  Admin       Pentadbir sistem       Semua modul: data induk, pindaan
+   231→              (Pembantu Tadbir /     kehadiran, laporan, tetapan, audit,
+   232→              Admin sekolah)         set semula data demo
+   233→
+   234→  Pengetua    Guru Besar / Pengetua  Dashboard, semua laporan, lulus/tolak
+   235→                                     cuti, lihat audit (baca sahaja)
+   236→
+   237→  Penyelia    Penolong Kanan / Ketua Dashboard jabatan sendiri, laporan
+   238→              Panitia                jabatan, cadang/lulus cuti peringkat
+   239→                                     pertama (jika diaktifkan)
+   240→
+   241→  Guru / Staf Guru dan staf sokongan Daftar masuk/keluar sendiri, lihat
+   242→                                     rekod sendiri, mohon cuti, lihat baki
+   243→                                     cuti dan notifikasi
+   244→
+   245→  Kiosk       Mod terhad di          Hanya skrin daftar masuk/keluar
+   246→              pejabat/pengawal       melalui No. ID Staf dan PIN
+   247→  ------------------------------------------------------------------------
+   248→
+   249→6. Kisah Pengguna dan Kriteria Penerimaan
+   250→
+   251→Keutamaan menggunakan kaedah MoSCoW: Mesti (M), Patut (P), Boleh (B).
+   252→Kisah pengguna di bawah ialah kisah teras; keperluan terperinci
+   253→disenaraikan dalam Bahagian 7.
+   254→
+   255→+----+--------------------+-------------------------------------+----+
+   256→| ID | Kisah pengguna     | Kriteria penerimaan                 | Ke |
+   257→|    |                    |                                     | p. |
+   258→+====+====================+=====================================+====+
+   259→| U  | Sebagai guru, saya | Butang “Daftar Masuk” dipaparkan    | M  |
+   260→| S- | mahu daftar masuk  | pada skrin utama.                   |    |
+   261→| 01 | dengan satu klik   |                                     |    |
+   262→|    | supaya kehadiran   | Cap masa dan status (Hadir/Lewat)   |    |
+   263→|    | saya direkod       | dipaparkan serta-merta.             |    |
+   264→|    | pantas.            |                                     |    |
+   265→|    |                    | Daftar kali kedua pada hari yang    |    |
+   266→|    |                    | sama ditolak dengan mesej jelas.    |    |
+   267→+----+--------------------+-------------------------------------+----+
+   268→| U  | Sebagai guru, saya | Butang “Daftar Keluar” aktif hanya  | M  |
+   269→| S- | mahu daftar keluar | selepas daftar masuk.               |    |
+   270→| 02 | pada penghujung    |                                     |    |
+   271→|    | hari supaya jam    | Jumlah jam bekerja dipaparkan.      |    |
+   272→|    | bekerja dikira.    |                                     |    |
+   273→+----+--------------------+-------------------------------------+----+
+   274→| U  | Sebagai            | Skrin kiosk menerima No. ID Staf    | P  |
+   275→| S- | pengawal/staf      | dan PIN.                            |    |
+   276→| 03 | pejabat, saya mahu |                                     |    |
+   277→|    | mod kiosk supaya   | Paparan pengesahan nama dan status  |    |
+   278→|    | staf tanpa         | selama 3 saat sebelum reset.        |    |
+   279→|    | komputer boleh     |                                     |    |
+   280→|    | daftar.            |                                     |    |
+   281→+----+--------------------+-------------------------------------+----+
+   282→| U  | Sebagai guru, saya | Borang memerlukan jenis, tarikh     | M  |
+   283→| S- | mahu memohon cuti  | mula/akhir dan sebab.               |    |
+   284→| 04 | dan melihat status |                                     |    |
+   285→|    | permohonan.        | Status: Menunggu, Diluluskan,       |    |
+   286→|    |                    | Ditolak dipaparkan.                 |    |
+   287→|    |                    |                                     |    |
+   288→|    |                    | Baki cuti dikemas kini selepas      |    |
+   289→|    |                    | lulus.                              |    |
+   290→+----+--------------------+-------------------------------------+----+
+   291→| U  | Sebagai Pengetua,  | Senarai permohonan menunggu         | M  |
+   292→| S- | saya mahu          | dipaparkan.                         |    |
+   293→| 05 | meluluskan/menolak |                                     |    |
+   294→|    | cuti dengan        | Keputusan memicu notifikasi kepada  |    |
+   295→|    | catatan.           | pemohon.                            |    |
+   296→|    |                    |                                     |    |
+   297→|    |                    | Status kehadiran pada tarikh        |    |
+   298→|    |                    | berkenaan bertukar menjadi “Cuti”.  |    |
+   299→+----+--------------------+-------------------------------------+----+
+   300→| U  | Sebagai pentadbir, | Dashboard memaparkan kiraan         | M  |
+   301→| S- | saya mahu melihat  | Hadir/Lewat/Belum Hadir/Cuti.       |    |
+   302→| 06 | siapa belum hadir  |                                     |    |
+   303→|    | pada pagi ini.     | Senarai “Belum Hadir” boleh ditapis |    |
+   304→|    |                    | mengikut jabatan.                   |    |
+   305→+----+--------------------+-------------------------------------+----+
+   306→| U  | Sebagai admin,     | Pindaan memerlukan alasan.          | M  |
+   307→| S- | saya mahu          |                                     |    |
+   308→| 07 | membetulkan rekod  | Nilai lama dan baharu direkod dalam |    |
+   309→|    | yang tersilap      | log audit bersama pengguna dan      |    |
+   310→|    | dengan jejak       | masa.                               |    |
+   311→|    | audit.             |                                     |    |
+   312→+----+--------------------+-------------------------------------+----+
+   313→| U  | Sebagai pentadbir, | Penapis bulan, jabatan, individu.   | M  |
+   314→| S- | saya mahu menjana  |                                     |    |
+   315→| 08 | laporan bulanan    | Eksport CSV dan paparan cetak       |    |
+   316→|    | dan mengeksport ke | tersedia.                           |    |
+   317→|    | CSV.               |                                     |    |
+   318→+----+--------------------+-------------------------------------+----+
+   319→| U  | Sebagai admin,     | Tambah, ubah, nyahaktif staf.       | M  |
+   320→| S- | saya mahu          |                                     |    |
+   321→| 09 | menguruskan data   | Cuti umum dan cuti sekolah tidak    |    |
+   322→|    | staf dan kalendar  | dikira sebagai “Tidak Hadir”.       |    |
+   323→|    | cuti.              |                                     |    |
+   324→+----+--------------------+-------------------------------------+----+
+   325→| U  | Sebagai Pengetua,  | Carta trend lewat mingguan/bulanan. | P  |
+   326→| S- | saya mahu melihat  |                                     |    |
+   327→| 10 | trend kelewatan    | Senarai 10 staf paling kerap lewat  |    |
+   328→|    | supaya tindakan    | dalam tempoh dipilih.               |    |
+   329→|    | susulan dibuat.    |                                     |    |
+   330→+----+--------------------+-------------------------------------+----+
+   331→
+   332→7. Keperluan Fungsian
+   333→
+   334→7.1 Modul A – Pengesahan dan Akses
+   335→
+   336→  -------------------------------------------------------------------------
+   337→  ID       Keperluan                                                 Kep.
+   338→  -------- --------------------------------------------------------- ------
+   339→  FR-A01   Pengguna log masuk menggunakan No. ID Staf dan kata       M
+   340→           laluan.                                                   
+   341→
+   342→  FR-A02   Kawalan akses berasaskan peranan (Admin, Pengetua,        M
+   343→           Penyelia, Guru/Staf, Kiosk); menu dan laluan (route)      
+   344→           dilindungi mengikut peranan.                              
+   345→
+   346→  FR-A03   Sesi tamat secara automatik selepas 30 minit tidak aktif; P
+   347→           butang log keluar sentiasa tersedia.                      
+   348→
+   349→  FR-A04   Pengguna dipaksa menukar kata laluan lalai pada log masuk P
+   350→           pertama; admin boleh menetapkan semula kata laluan.       
+   351→
+   352→  FR-A05   Akaun dikunci sementara (5 minit) selepas 5 percubaan log B
+   353→           masuk gagal.                                              
+   354→  -------------------------------------------------------------------------
+   355→
+   356→7.2 Modul B – Rekod Kehadiran
+   357→
+   358→  -------------------------------------------------------------------------
+   359→  ID       Keperluan                                                 Kep.
+   360→  -------- --------------------------------------------------------- ------
+   361→  FR-B01   Butang “Daftar Masuk” menyimpan cap masa sistem (bukan    M
+   362→           input pengguna) dan menentukan status Hadir atau Lewat    
+   363→           berdasarkan waktu kerja dalam Tetapan.                    
+   364→
+   365→  FR-B02   Butang “Daftar Keluar” merekod waktu keluar dan mengira   M
+   366→           jumlah jam bekerja; amaran jika keluar sebelum waktu      
+   367→           tamat.                                                    
+   368→
+   369→  FR-B03   Status kehadiran yang disokong: Hadir, Lewat, Tidak       M
+   370→           Hadir, Cuti, Tugas Rasmi/Kursus, Cuti Umum/Sekolah.       
+   371→
+   372→  FR-B04   Hanya satu rekod kehadiran bagi seorang staf pada satu    M
+   373→           tarikh; daftar masuk berganda ditolak.                    
+   374→
+   375→  FR-B05   Apabila daftar masuk Lewat, pengguna memilih sebab (cth.  P
+   376→           kenderaan rosak, urusan keluarga, kesesakan, lain-lain)   
+   377→           dan catatan pilihan.                                      
+   378→
+   379→  FR-B06   Mod Kiosk: staf memasukkan No. ID Staf dan PIN 4 digit;   P
+   380→           skrin kembali kosong selepas 3 saat.                      
+   381→
+   382→  FR-B07   Admin boleh menambah atau meminda rekod secara manual     M
+   383→           dengan alasan wajib; setiap perubahan dicatat dalam log   
+   384→           audit.                                                    
+   385→
+   386→  FR-B08   Tindakan “Tutup Hari” (admin): staf tanpa rekod dan tanpa P
+   387→           cuti ditandakan Tidak Hadir; hari cuti umum/hujung minggu 
+   388→           dilangkau.                                                
+   389→
+   390→  FR-B09   Paparan “Kehadiran Saya”: kalendar bulanan berkod warna   M
+   391→           dan senarai rekod peribadi.                               
+   392→
+   393→  FR-B10   Pengesahan lokasi (geofence) dan penangkapan swafoto –    B
+   394→           dirancang untuk fasa lanjutan, bukan Fasa 1.              
+   395→  -------------------------------------------------------------------------
+   396→
+   397→7.3 Modul C – Cuti dan Kebenaran Keluar
+   398→
+   399→  -------------------------------------------------------------------------
+   400→  ID       Keperluan                                                 Kep.
+   401→  -------- --------------------------------------------------------- ------
+   402→  FR-C01   Borang permohonan cuti: jenis (Cuti Rehat, Cuti Sakit,    M
+   403→           Cuti Kecemasan, Cuti Bersalin/Paterniti, Tugas            
+   404→           Rasmi/Kursus, Lain-lain), tarikh mula, tarikh akhir,      
+   405→           sebab; sokongan cuti separuh hari.                        
+   406→
+   407→  FR-C02   Lampiran dokumen (cth. sijil cuti sakit): dalam prototaip P
+   408→           hanya nama fail disimpan; muat naik sebenar pada fasa     
+   409→           lanjutan.                                                 
+   410→
+   411→  FR-C03   Aliran kelulusan: Guru/Staf → Pengetua (tahap tunggal).   M
+   412→           Aliran dua peringkat (Penyelia → Pengetua) boleh          
+   413→           diaktifkan melalui tetapan.                               
+   414→
+   415→  FR-C04   Baki cuti mengikut jenis dipaparkan dan ditolak secara    P
+   416→           automatik selepas kelulusan; permohonan melebihi baki     
+   417→           diberi amaran.                                            
+   418→
+   419→  FR-C05   Selepas lulus, status kehadiran pada tarikh berkenaan     M
+   420→           dikemas kini kepada “Cuti” atau “Tugas Rasmi” secara      
+   421→           automatik.                                                
+   422→
+   423→  FR-C06   Permohonan Kebenaran Keluar Waktu Kerja (tarikh, masa     P
+   424→           keluar, masa kembali, sebab) dengan kelulusan.            
+   425→
+   426→  FR-C07   Pemohon boleh membatalkan permohonan yang masih berstatus P
+   427→           Menunggu.                                                 
+   428→  -------------------------------------------------------------------------
+   429→
+   430→7.4 Modul D – Dashboard
+   431→
+   432→  -------------------------------------------------------------------------
+   433→  ID       Keperluan                                                 Kep.
+   434→  -------- --------------------------------------------------------- ------
+   435→  FR-D01   Dashboard Admin/Pengetua: kad ringkasan hari ini (Jumlah  M
+   436→           Staf, Hadir, Lewat, Belum Hadir, Cuti/Tugas Rasmi) dan    
+   437→           peratus kehadiran.                                        
+   438→
+   439→  FR-D02   Senarai staf Belum Hadir dan Lewat hari ini dengan        M
+   440→           penapis jabatan; kemas kini tanpa muat semula halaman     
+   441→           penuh.                                                    
+   442→
+   443→  FR-D03   Carta trend kehadiran 7 hari / 30 hari dan carta pecahan  P
+   444→           status bulan semasa.                                      
+   445→
+   446→  FR-D04   Dashboard Guru/Staf: butang daftar masuk/keluar,          M
+   447→           ringkasan bulan ini (hari hadir, lewat, cuti) dan baki    
+   448→           cuti.                                                     
+   449→
+   450→  FR-D05   Widget “Cuti Menunggu Kelulusan” untuk Pengetua dan “Staf P
+   451→           Bercuti Hari Ini” untuk pentadbir.                        
+   452→  -------------------------------------------------------------------------
+   453→
+   454→7.5 Modul E – Laporan
+   455→
+   456→  -------------------------------------------------------------------------
+   457→  ID       Keperluan                                                 Kep.
+   458→  -------- --------------------------------------------------------- ------
+   459→  FR-E01   Laporan harian, laporan bulanan (matriks staf × tarikh)   M
+   460→           dan laporan individu.                                     
+   461→
+   462→  FR-E02   Penapis: julat tarikh, jabatan/panitia, kategori          M
+   463→           (Guru/Staf Sokongan), status.                             
+   464→
+   465→  FR-E03   Eksport ke CSV (Mesti) dan paparan cetak/PDF melalui      M
+   466→           fungsi cetak pelayar (Patut) dengan kepala surat sekolah. 
+   467→
+   468→  FR-E04   Ringkasan analitik: peratus kehadiran, jumlah lewat,      P
+   469→           purata jam bekerja, 10 teratas paling kerap lewat.        
+   470→
+   471→  FR-E05   Laporan baki dan penggunaan cuti mengikut staf.           P
+   472→
+   473→  FR-E06   Eksport XLSX berformat dan jadual laporan berjadual       B
+   474→           automatik – fasa lanjutan.                                
+   475→  -------------------------------------------------------------------------
+   476→
+   477→7.6 Modul F – Pengurusan Data Induk dan Tetapan
+   478→
+   479→  -------------------------------------------------------------------------
+   480→  ID       Keperluan                                                 Kep.
+   481→  -------- --------------------------------------------------------- ------
+   482→  FR-F01   CRUD staf: No. ID Staf, nama, No. K/P (dipaparkan         M
+   483→           disamarkan, cth. 8501--****), jantina, jawatan, kategori, 
+   484→           jabatan/panitia, emel, telefon, tarikh lantikan, peranan, 
+   485→           status aktif. Staf dinyahaktif, bukan dipadam.            
+   486→
+   487→  FR-F02   CRUD jabatan/panitia/unit (cth. Pentadbiran, Bahasa       P
+   488→           Melayu, Matematik, Sains, Bahasa Inggeris, Pendidikan     
+   489→           Islam & Tahfiz, Sokongan).                                
+   490→
+   491→  FR-F03   Kalendar: cuti umum, cuti sekolah (penggal), cuti negeri  M
+   492→           Selangor dan hari khas sekolah. Hari ini tidak dikira     
+   493→           Tidak Hadir.                                              
+   494→
+   495→  FR-F04   Tetapan waktu kerja: waktu masuk (lalai 07:30), tempoh    M
+   496→           bertolak ansur (lalai 15 minit), waktu tamat, waktu khas  
+   497→           Jumaat, mod Ramadan, hari bekerja (lalai Isnin–Jumaat).   
+   498→           Semua boleh dikonfigurasi.                                
+   499→
+   500→  FR-F05   Import staf dari fail CSV dengan pratonton dan pengesahan B
+   501→           ralat.                                                    
+   502→
+   503→  FR-F06   Konfigurasi jenis cuti dan kelayakan tahunan.             P
+   504→  -------------------------------------------------------------------------
+   505→
+   506→7.7 Modul G – Notifikasi dan Audit
+   507→
+   508→  -------------------------------------------------------------------------
+   509→  ID       Keperluan                                                 Kep.
+   510→  -------- --------------------------------------------------------- ------
+   511→  FR-G01   Notifikasi dalam aplikasi (ikon loceng): permohonan       P
+   512→           baharu, cuti diluluskan/ditolak, pindaan rekod kehadiran. 
+   513→
+   514→  FR-G02   Log audit tidak boleh diubah: pengguna, tindakan, entiti, M
+   515→           nilai lama/baharu, cap masa; boleh ditapis dan dieksport. 
+   516→
+   517→  FR-G03   Penghantaran emel/WhatsApp/SMS – fasa lanjutan.           B
+   518→  -------------------------------------------------------------------------
+   519→
+   520→7.8 Modul H – Data Dummy dan Lapisan Data
+   521→
+   522→  -------------------------------------------------------------------------
+   523→  ID       Keperluan                                                 Kep.
+   524→  -------- --------------------------------------------------------- ------
+   525→  FR-H01   Data benih (seed) dimuatkan automatik pada pelancaran     M
+   526→           pertama: ±12 staf, ±60 hari kerja rekod kehadiran,        
+   527→           permohonan cuti dan kalendar.                             
+   528→
+   529→  FR-H02   Butang “Set Semula Data Demo” (admin sahaja) dengan       M
+   530→           pengesahan dua langkah.                                   
+   531→
+   532→  FR-H03   Data berterusan antara sesi melalui localStorage atau     M
+   533→           IndexedDB.                                                
+   534→
+   535→  FR-H04   Semua akses data melalui lapisan perkhidmatan             M
+   536→           (service/repository) yang mensimulasi kependaman 200–500  
+   537→           ms dan ralat rawak (opsyenal) supaya skrin muat dan ralat 
+   538→           diuji.                                                    
+   539→
+   540→  FR-H05   Kontrak API (antara muka TypeScript) sama seperti API     M
+   541→           sebenar supaya penggantian ke backend hanya melibatkan    
+   542→           lapisan perkhidmatan.                                     
+   543→
+   544→  FR-H06   Sepanduk “Mod Demo – data rekaan” sentiasa kelihatan      P
+   545→           dalam aplikasi.                                           
+   546→  -------------------------------------------------------------------------
+   547→
+   548→8. Keperluan Bukan Fungsian
+   549→
+   550→  ------------------------------------------------------------------------------
+   551→  ID       Kategori              Keperluan
+   552→  -------- --------------------- -----------------------------------------------
+   553→  NFR-01   Bahasa                Semua antara muka, mesej ralat dan laporan
+   554→                                 dalam Bahasa Malaysia; format tarikh HH/BB/TTTT
+   555→                                 dan masa 24 jam; zon waktu Asia/Kuala_Lumpur
+   556→                                 (UTC+8).
+   557→
+   558→  NFR-02   Prestasi              Muat awal ≤ 3 saat pada sambungan 4G; interaksi
+   559→                                 biasa ≤ 300 ms (tidak termasuk kependaman
+   560→                                 simulasi); laporan bulanan untuk 100 staf
+   561→                                 dijana ≤ 2 saat.
+   562→
+   563→  NFR-03   Responsif             Berfungsi pada paparan 360 px hingga 1920 px;
+   564→                                 pendekatan mobile-first kerana guru kerap
+   565→                                 menggunakan telefon.
+   566→
+   567→  NFR-04   Kebolehgunaan         Tugas utama (daftar masuk) boleh disiapkan
+   568→                                 dalam ≤ 3 ketukan; fon ≥ 16 px; penerangan
+   569→                                 ringkas dalam BM mudah.
+   570→
+   571→  NFR-05   Kebolehcapaian        Mematuhi WCAG 2.1 AA (kontras, navigasi papan
+   572→                                 kekunci, label borang, atribut ARIA).
+   573→
+   574→  NFR-06   Keselamatan           Laluan dilindungi, penyahsanitian input, tiada
+   575→           (prototaip)           rahsia dalam kod sumber; kata laluan demo
+   576→                                 disimpan sebagai cincang (hash) walaupun data
+   577→                                 dummy.
+   578→
+   579→  NFR-07   Keselamatan           HTTPS, hashing kata laluan (bcrypt/argon2),
+   580→           (produksi)            token sesi selamat, had kadar log masuk,
+   581→                                 sandaran data berkala, MFA untuk Admin
+   582→                                 (cadangan).
+   583→
+   584→  NFR-08   Privasi data          Mematuhi semangat Akta Perlindungan Data
+   585→                                 Peribadi 2010 (Akta 709): kumpul data minimum,
+   586→                                 samarkan No. K/P, akses mengikut peranan, tiada
+   587→                                 data sebenar dalam prototaip.
+   588→
+   589→  NFR-09   Keserasian pelayar    Chrome, Edge, Safari, Firefox (dua versi
+   590→                                 terkini); iOS 15+ dan Android 10+.
+   591→
+   592→  NFR-10   Kebolehselenggaraan   TypeScript, ESLint/Prettier, struktur modular,
+   593→                                 liputan ujian unit ≥ 70% bagi logik perniagaan,
+   594→                                 dokumentasi README dan komen ringkas.
+   595→
+   596→  NFR-11   Kebolehpercayaan      Pengendalian ralat dan keadaan kosong/memuat
+   597→                                 bagi semua skrin; data dummy tidak rosak jika
+   598→                                 pelayar ditutup mendadak.
+   599→
+   600→  NFR-12   Kebolehbawaan         Pembinaan statik boleh dihoskan di
+   601→                                 Netlify/Vercel/GitHub Pages atau pelayan
+   602→                                 sekolah tanpa pangkalan data.
+   603→  ------------------------------------------------------------------------------
+   604→
+   605→9. Peraturan Perniagaan dan Andaian Operasi
+   606→
+   607→Nilai di bawah ialah lalai cadangan dan mesti disahkan oleh Pengetua.
+   608→Semuanya boleh diubah melalui halaman Tetapan (FR-F04).
+   609→
+   610→  ------------------------------------------------------------------------
+   611→  Kod     Peraturan                      Nilai lalai
+   612→  ------- ------------------------------ ---------------------------------
+   613→  BR-01   Hari bekerja                   Isnin–Jumaat (boleh dikonfigurasi
+   614→                                         jika sekolah mengikut jadual
+   615→                                         lain)
+   616→
+   617→  BR-02   Waktu masuk                    07:30 pagi
+   618→
+   619→  BR-03   Tempoh bertolak ansur sebelum  15 minit (lewat jika daftar
+   620→          dianggap Lewat                 selepas 07:45)
+   621→
+   622→  BR-04   Waktu tamat kerja              Isnin–Khamis 15:30; Jumaat 12:30
+   623→                                         (boleh diubah)
+   624→
+   625→  BR-05   Waktu cut-off Tidak Hadir      Tiada rekod hingga 10:00 pagi
+   626→                                         ditandakan “Belum Hadir”; ditukar
+   627→                                         “Tidak Hadir” oleh Tutup Hari
+   628→
+   629→  BR-06   Mod Ramadan                    Waktu masuk dan tamat alternatif
+   630→                                         dalam julat tarikh yang
+   631→                                         ditetapkan admin
+   632→
+   633→  BR-07   Cuti umum dan cuti sekolah     Diambil daripada kalendar
+   634→                                         (FR-F03); dimasukkan secara
+   635→                                         manual oleh admin
+   636→
+   637→  BR-08   Cuti separuh hari              Dikira 0.5 hari daripada baki
+   638→
+   639→  BR-09   Kelayakan cuti rehat tahunan   Mengikut dasar sekolah (cadangan
+   640→                                         nilai contoh: 14–25 hari
+   641→                                         bergantung perkhidmatan); sahkan
+   642→                                         dengan Pengetua
+   643→
+   644→  BR-10   Pindaan rekod oleh admin       Alasan wajib; tidak boleh
+   645→                                         memadam, hanya mengubah dengan
+   646→                                         jejak audit
+   647→
+   648→  BR-11   Pengiraan jam bekerja          Waktu keluar – waktu masuk;
+   649→                                         ditunjukkan dalam jam dan minit
+   650→  ------------------------------------------------------------------------
+   651→
+   652→10. Reka Bentuk Penyelesaian
+   653→
+   654→10.1 Seni bina peringkat tinggi
+   655→
+   656→Prototaip ialah aplikasi satu halaman (SPA) sepenuhnya di sisi
+   657→pelanggan. Untuk memastikan peralihan mudah ke produksi, kod dibahagikan
+   658→kepada lapisan berikut:
+   659→
+   660→  ----------------------------------------------------------------------------------
+   661→  Lapisan        Tanggungjawab       Prototaip                  Produksi (masa
+   662→                                                                hadapan)
+   663→  -------------- ------------------- -------------------------- --------------------
+   664→  Persembahan    Halaman, komponen,  React + Tailwind +         Tiada perubahan
+   665→  (UI)           borang, carta       komponen UI                
+   666→
+   667→  Keadaan        Sesi pengguna,      Context/Zustand + TanStack Tiada perubahan
+   668→  (State)        cache data pelayan  Query                      
+   669→
+   670→  Perkhidmatan   Antara muka tunggal Perkhidmatan tiruan (mock) Perkhidmatan
+   671→  (Service)      akses data (kontrak memanggil Data Store       memanggil REST API
+   672→                 API)                                           
+   673→
+   674→  Data Store     Penyimpanan dan     localStorage/IndexedDB +   Pangkalan data
+   675→                 benih data          fail JSON benih            (PostgreSQL/MySQL)
+   676→                                                                di belakang API
+   677→
+   678→  Logik domain   Pengiraan lewat,    Fungsi tulen TypeScript +  Boleh dikongsi atau
+   679→                 baki cuti, status   ujian unit                 dipindah ke backend
+   680→  ----------------------------------------------------------------------------------
+   681→
+   682→10.2 Timbunan teknologi cadangan
+   683→
+   684→  ------------------------------------------------------------------------
+   685→  Keperluan         Pilihan                  Sebab
+   686→  ----------------- ------------------------ -----------------------------
+   687→  Rangka kerja UI   React 18 + Vite          Pembinaan pantas, ekosistem
+   688→                                             matang, mudah dijana oleh AI
+   689→
+   690→  Bahasa            TypeScript               Kontrak data jelas, kurang
+   691→                                             ralat, memudahkan penjanaan
+   692→                                             kod AI yang konsisten
+   693→
+   694→  Penghalaan        React Router v6          Laluan dilindungi mengikut
+   695→                                             peranan
+   696→
+   697→  Gaya              Tailwind CSS + shadcn/ui Komponen boleh capai dan
+   698→                                             responsif
+   699→
+   700→  Borang &          React Hook Form + Zod    Pengesahan input dan mesej
+   701→  pengesahan                                 ralat BM
+   702→
+   703→  Data pelayan      TanStack Query           Cache, keadaan memuat/ralat,
+   704→  (simulasi)                                 mudah ditukar ke API sebenar
+   705→
+   706→  Carta             Recharts                 Carta bar, garis, pai ringkas
+   707→
+   708→  Tarikh/masa       date-fns (+ locale ms)   Pengiraan tarikh dan format
+   709→                                             tempatan
+   710→
+   711→  Eksport           papaparse / SheetJS      Eksport laporan tanpa pelayan
+   712→                    (CSV, XLSX) dan CSS      
+   713→                    cetak                    
+   714→
+   715→  Penyimpanan dummy localStorage (mudah)     Data kekal antara sesi tanpa
+   716→                    atau                     backend
+   717→                    localforage/IndexedDB    
+   718→                    (lebih besar)            
+   719→
+   720→  Ujian             Vitest + React Testing   Ujian unit logik dan aliran
+   721→                    Library; Playwright      utama
+   722→                    (opsyenal)               
+   723→
+   724→  Kualiti kod       ESLint + Prettier        Konsistensi kod hasil AI
+   725→  ------------------------------------------------------------------------
+   726→
+   727→+-----------------------------------------------------------------------+
+   728→| Nota tentang z.ai dan model GLM 5.2                                   |
+   729→|                                                                       |
+   730→| Pembangunan dirancang menggunakan platform z.ai dengan model GLM 5.2  |
+   731→| seperti yang ditetapkan oleh pihak sekolah. PRD ini sengaja tidak     |
+   732→| bergantung pada model tertentu; sila sahkan nama model, had konteks   |
+   733→| dan keupayaan yang tersedia pada akaun z.ai anda semasa Fasa 0. Jika  |
+   734→| model berbeza, strategi dalam Bahagian 15 masih terpakai.             |
+   735→+-----------------------------------------------------------------------+
+   736→
+   737→10.3 Struktur folder projek
+   738→
+   739→  srkgs/
+   740→
+   741→  ├─ public/ # logo sekolah, ikon, manifest
+   742→
+   743→  ├─ src/
+   744→
+   745→  │ ├─ main.tsx, App.tsx
+   746→
+   747→  │ ├─ routes/ # definisi laluan + penjaga peranan
+   748→
+   749→  │ ├─ pages/ # Login, Dashboard, KehadiranSaya, Kiosk,
+   750→
+   751→  │ │ # Cuti, Kelulusan, Laporan, Staf, Kalendar,
+   752→
+   753→  │ │ # Tetapan, Audit, Notifikasi
+   754→
+   755→  │ ├─ components/ # ui/, layout/, charts/, forms/
+   756→
+   757→  │ ├─ features/ # auth/, kehadiran/, cuti/, laporan/ ...
+   758→
+   759→  │ ├─ domain/ # kiraStatus.ts, bakiCuti.ts (logik tulen)
+   760→
+   761→  │ ├─ services/ # kehadiranService.ts, cutiService.ts ...
+   762→
+   763→  │ ├─ data/ # seed/*.json, store.ts (localStorage)
+   764→
+   765→  │ ├─ types/ # Staf, Kehadiran, Cuti, Tetapan ...
+   766→
+   767→  │ ├─ hooks/, utils/, i18n/ # teks BM berpusat
+   768→
+   769→  │ └─ tests/
+   770→
+   771→  ├─ README.md, package.json, vite.config.ts
+   772→
+   773→11. Model Data (Pangkalan Data Dummy)
+   774→
+   775→Model berikut menggambarkan koleksi/jadual dalam Data Store. Struktur
+   776→dikekalkan supaya boleh dipetakan terus kepada jadual SQL pada fasa
+   777→produksi.
+   778→
+   779→11.1 Hubungan entiti ringkas
+   780→
+   781→  Jabatan 1 ──── * Staf 1 ──── * Kehadiran
+   782→
+   783→  │
+   784→
+   785→  ├──── * PermohonanCuti * ──── 1 JenisCuti
+   786→
+   787→  ├──── * KebenaranKeluar
+   788→
+   789→  ├──── * Notifikasi
+   790→
+   791→  └──── * BakiCuti (Staf × JenisCuti × Tahun)
+   792→
+   793→  Tetapan (1 rekod) Kalendar (hari cuti) LogAudit (semua entiti)
+   794→
+   795→11.2 Jadual: Staf
+   796→
+   797→  -------------------------------------------------------------------------
+   798→  Medan             Jenis          Penerangan
+   799→  ----------------- -------------- ----------------------------------------
+   800→  id                string (PK)    Pengenal unik, cth. S001
+   801→
+   802→  noIdStaf          string (unik)  No. ID Staf untuk log masuk
+   803→
+   804→  nama              string         Nama penuh
+   805→
+   806→  noKpSamar         string         No. K/P disamarkan (rekaan dalam demo)
+   807→
+   808→  jantina           enum           L / P
+   809→
+   810→  jawatan           string         Cth. Guru Bahasa Melayu
+   811→
+   812→  kategori          enum           Guru | StafSokongan | Pentadbiran
+   813→
+   814→  jabatanId         string (FK)    Rujukan Jabatan
+   815→
+   816→  emel, telefon     string         Maklumat perhubungan (rekaan)
+   817→
+   818→  tarikhLantik      date           Tarikh mula berkhidmat
+   819→
+   820→  peranan           enum           Admin | Pengetua | Penyelia | Guru |
+   821→                                   Kiosk
+   822→
+   823→  kataLaluanHash,   string         Cincang kata laluan dan PIN kiosk (demo)
+   824→  pin                              
+   825→
+   826→  aktif             boolean        Status aktif/nyahaktif
+   827→  -------------------------------------------------------------------------
+   828→
+   829→11.3 Jadual: Kehadiran
+   830→
+   831→  --------------------------------------------------------------------------
+   832→  Medan             Jenis           Penerangan
+   833→  ----------------- --------------- ----------------------------------------
+   834→  id                string (PK)     Pengenal unik
+   835→
+   836→  staf_id           string (FK)     Rujukan Staf
+   837→
+   838→  tarikh            date            Tarikh kehadiran (unik bersama staf_id)
+   839→
+   840→  masaMasuk,        datetime/null   Cap masa daftar
+   841→  masaKeluar                        
+   842→
+   843→  status            enum            Hadir | Lewat | TidakHadir | Cuti |
+   844→                                    TugasRasmi | CutiUmum
+   845→
+   846→  sebabLewat,       string/null     Sebab dan catatan
+   847→  catatan                           
+   848→
+   849→  sumber            enum            Sendiri | Kiosk | Admin
+   850→
+   851→  jamBekerja        number/null     Dikira apabila daftar keluar
+   852→
+   853→  dikemaskiniOleh   string/null     Pengguna yang meminda (jika manual)
+   854→  --------------------------------------------------------------------------
+   855→
+   856→11.4 Jadual: PermohonanCuti
+   857→
+   858→  ------------------------------------------------------------------------
+   859→  Medan                  Jenis         Penerangan
+   860→  ---------------------- ------------- -----------------------------------
+   861→  id, staf_id            string        Kunci utama dan rujukan pemohon
+   862→
+   863→  jenisCutiId            string (FK)   Rujukan JenisCuti
+   864→
+   865→  tarikhMula,            date          Julat cuti
+   866→  tarikhAkhir                          
+   867→
+   868→  separuhHari            boolean       Cuti separuh hari
+   869→
+   870→  bilHari                number        Dikira mengecualikan cuti
+   871→                                       umum/hujung minggu
+   872→
+   873→  sebab, lampiranNama    string        Sebab dan nama fail lampiran
+   874→
+   875→  status                 enum          Menunggu | Diluluskan | Ditolak |
+   876→                                       Dibatalkan
+   877→
+   878→  diputuskanOleh,        string/date   Maklumat keputusan
+   879→  catatanKeputusan,                    
+   880→  tarikhKeputusan                      
+   881→  ------------------------------------------------------------------------
+   882→
+   883→11.5 Jadual sokongan
+   884→
+   885→  ------------------------------------------------------------------------
+   886→  Jadual            Medan utama
+   887→  ----------------- ------------------------------------------------------
+   888→  Jabatan           id, nama, kod, ketuaId
+   889→
+   890→  JenisCuti         id, nama, kelayakanTahunan, perluLampiran
+   891→
+   892→  BakiCuti          staf_id, jenisCutiId, tahun, layak, digunakan
+   893→
+   894→  KebenaranKeluar   id, staf_id, tarikh, masaKeluar, masaKembali, sebab,
+   895→                    status
+   896→
+   897→  Kalendar          id, tarikh, nama, jenis (CutiUmum | CutiSekolah |
+   898→                    HariKhas)
+   899→
+   900→  Tetapan           waktuMasuk, bertolakAnsurMinit, waktuTamat,
+   901→                    waktuTamatJumaat, hariBekerja[], ramadan{mula, tamat,
+   902→                    masuk, tamat}, aliranKelulusan
+   903→
+   904→  Notifikasi        id, penerimaId, tajuk, mesej, dibaca, dicipta
+   905→
+   906→  LogAudit          id, penggunaId, tindakan, entiti, entitiId, nilaiLama,
+   907→                    nilaiBaharu, cap masa
+   908→  ------------------------------------------------------------------------
+   909→
+   910→11.6 Contoh data benih (semua data rekaan)
+   911→
+   912→Nama berikut adalah rekaan sepenuhnya dan tidak merujuk kepada individu
+   913→sebenar. Akaun demo hanya untuk prototaip; kata laluan lalai demo:
+   914→Demo@1234, PIN: 1234.
+   915→
+   916→  ---------------------------------------------------------------------------
+   917→  ID     Nama (rekaan)         Jawatan               Jabatan       Peranan
+   918→  ------ --------------------- --------------------- ------------- ----------
+   919→  S001   Ahmad Faiz bin Roslan Pengetua              Pentadbiran   Pengetua
+   920→
+   921→  S002   Norhayati binti       Penolong Kanan        Pentadbiran   Penyelia
+   922→         Ismail                Pentadbiran                         
+   923→
+   924→  S003   Muhammad Hafiz bin    Penolong Kanan HEM    Pentadbiran   Penyelia
+   925→         Zainal                                                    
+   926→
+   927→  S004   Siti Aisyah binti     Guru Bahasa Melayu    Bahasa Melayu Guru
+   928→         Rahim                                                     
+   929→
+   930→  S005   Nurul Huda binti      Guru Pendidikan Islam PI & Tahfiz   Guru
+   931→         Karim                 & Tahfiz                            
+   932→
+   933→  S006   Mohd Azlan bin        Guru Matematik        Matematik     Guru
+   934→         Abdullah                                                  
+   935→
+   936→  S007   Farah Nabila binti    Guru Bahasa Inggeris  Bahasa        Guru
+   937→         Hashim                                      Inggeris      
+   938→
+   939→  S008   Zulkifli bin Mahmud   Guru Sains            Sains         Guru
+   940→
+   941→  S009   Rosnani binti Yusof   Pembantu Tadbir       Pentadbiran   Admin
+   942→                               (Admin Sistem)                      
+   943→
+   944→  S010   Kamarul Zaman bin     Pembantu Operasi      Sokongan      Guru
+   945→         Osman                                                     
+   946→
+   947→  S011   Salmah binti Daud     Pembantu Pengurusan   Sokongan      Guru
+   948→                               Murid                               
+   949→
+   950→  S012   Ridzuan bin Samad     Pengawal Keselamatan  Sokongan      Kiosk
+   951→  ---------------------------------------------------------------------------
+   952→
+   953→Contoh rekod kehadiran dalam fail benih:
+   954→
+   955→  {
+   956→
+   957→  "id": "K-20261116-S004",
+   958→
+   959→  "staf_id": "S004",
+   960→
+   961→  "tarikh": "2026-11-16",
+   962→
+   963→  "masaMasuk": "2026-11-16T07:41:00+08:00",
+   964→
+   965→  "masaKeluar": null,
+   966→
+   967→  "status": "Hadir",
+   968→
+   969→  "sebabLewat": null,
+   970→
+   971→  "sumber": "Sendiri"
+   972→
+   973→  }
+   974→
+   975→Penjana data benih hendaklah menghasilkan taburan realistik: ±90% Hadir,
+   976→±5% Lewat, ±3% Cuti, ±2% Tidak Hadir, serta beberapa permohonan cuti
+   977→dalam status Menunggu, Diluluskan dan Ditolak.
+   978→
+   979→12. Peta Laman dan Reka Bentuk Skrin
+   980→
+   981→12.1 Peta laman dan akses
+   982→
+   983→  -------------------------------------------------------------------------
+   984→  Laluan            Halaman                          Peranan yang
+   985→                                                     dibenarkan
+   986→  ----------------- -------------------------------- ----------------------
+   987→  /log-masuk        Log masuk                        Semua (awam)
+   988→
+   989→  /dashboard        Dashboard (paparan berbeza       Semua peranan log
+   990→                    mengikut peranan)                masuk
+   991→
+   992→  /kehadiran/saya   Kehadiran Saya + daftar          Guru, Penyelia,
+   993→                    masuk/keluar + kalendar peribadi Pengetua, Admin
+   994→
+   995→  /kiosk            Mod kiosk daftar masuk/keluar    Kiosk, Admin
+   996→
+   997→  /kehadiran/urus   Pengurusan kehadiran harian dan  Admin
+   998→                    pindaan manual                   
+   999→
+  1000→  /cuti             Cuti saya: baki, sejarah,        Semua peranan
+  1001→                    permohonan baharu                
+  1002→
+  1003→  /cuti/kelulusan   Senarai kelulusan cuti dan       Pengetua, Penyelia,
+  1004→                    kebenaran keluar                 Admin (lihat)
+  1005→
+  1006→  /laporan          Laporan                          Admin, Pengetua,
+  1007→                    harian/bulanan/individu/cuti     Penyelia (jabatan)
+  1008→
+  1009→  /staf             Pengurusan staf dan jabatan      Admin
+  1010→
+  1011→  /kalendar         Kalendar cuti umum dan sekolah   Admin (ubah), semua
+  1012→                                                     (lihat)
+  1013→
+  1014→  /tetapan          Waktu kerja, Ramadan, jenis      Admin
+  1015→                    cuti, set semula data demo       
+  1016→
+  1017→  /audit            Log audit                        Admin, Pengetua (baca
+  1018→                                                     sahaja)
+  1019→
+  1020→  /notifikasi       Pusat notifikasi                 Semua peranan
+  1021→
+  1022→  /profil           Profil dan tukar kata laluan     Semua peranan
+  1023→  -------------------------------------------------------------------------
+  1024→
+  1025→12.2 Prinsip reka bentuk UI
+  1026→
+  1027→-   Mobile-first: butang daftar besar di atas skrin telefon guru;
+  1028→    navigasi bawah pada mudah alih, bar sisi pada desktop.
+  1029→
+  1030→-   Identiti visual: warna utama hijau tua (nuansa Islamik, kontras
+  1031→    tinggi), logo Sekolah di pengepala, fon sans-serif jelas.
+  1032→
+  1033→-   Kod warna status (disertai ikon/teks, bukan warna sahaja): Hadir
+  1034→    (hijau), Lewat (kuning), Tidak Hadir (merah), Cuti (biru), Tugas
+  1035→    Rasmi (ungu), Cuti Umum (kelabu).
+  1036→
+  1037→-   Maklum balas jelas: toast pengesahan, keadaan memuat (skeleton),
+  1038→    keadaan kosong dan mesej ralat dalam BM.
+  1039→
+  1040→-   Sepanduk mod demo sentiasa kelihatan.
+  1041→
+  1042→12.3 Penerangan skrin utama
+  1043→
+  1044→  -----------------------------------------------------------------------
+  1045→  Skrin             Kandungan utama
+  1046→  ----------------- -----------------------------------------------------
+  1047→  Dashboard         Salam dan tarikh Hijrah/Masihi (pilihan), jam
+  1048→  Guru/Staf         langsung, butang Daftar Masuk/Keluar, status hari
+  1049→                    ini, ringkasan bulan ini, baki cuti, notifikasi
+  1050→                    terkini.
+  1051→
+  1052→  Dashboard         Empat–lima kad ringkasan, senarai Belum Hadir dan
+  1053→  Admin/Pengetua    Lewat, carta trend 7 hari, carta pai status, cuti
+  1054→                    menunggu kelulusan.
+  1055→
+  1056→  Kiosk             Skrin penuh, jam besar, input No. ID Staf dan PIN,
+  1057→                    papan nombor sentuh, paparan pengesahan nama/status.
+  1058→
+  1059→  Kehadiran Saya    Kalendar bulanan berkod warna, jadual rekod dengan
+  1060→                    masa masuk/keluar dan jam bekerja.
+  1061→
+  1062→  Mohon Cuti        Borang jenis cuti, tarikh, sebab, lampiran; paparan
+  1063→                    baki dan pengiraan hari berkesan.
+  1064→
+  1065→  Laporan           Penapis di atas, jadual keputusan, ringkasan, butang
+  1066→                    Eksport CSV dan Cetak.
+  1067→
+  1068→  Pengurusan Staf   Jadual boleh dicari dan ditapis, borang tambah/ubah
+  1069→                    dalam modal, penyahaktifan.
+  1070→
+  1071→  Tetapan           Waktu kerja, bertolak ansur, Jumaat, Ramadan, aliran
+  1072→                    kelulusan, jenis cuti, Set Semula Data Demo.
+  1073→  -----------------------------------------------------------------------
+  1074→
+  1075→13. Aliran Proses Utama
+  1076→
+  1077→13.1 Daftar masuk
+  1078→
+  1079→1.  Pengguna log masuk dan membuka Dashboard.
+  1080→
+  1081→2.  Pengguna menekan “Daftar Masuk”; sistem mengambil cap masa sistem
+  1082→    (Asia/Kuala_Lumpur).
+  1083→
+  1084→3.  Sistem menyemak sama ada hari bekerja, tiada cuti diluluskan dan
+  1085→    tiada rekod sedia ada.
+  1086→
+  1087→4.  Sistem membandingkan masa dengan waktu masuk + bertolak ansur untuk
+  1088→    menentukan Hadir atau Lewat.
+  1089→
+  1090→5.  Jika Lewat, pengguna memilih sebab lewat.
+  1091→
+  1092→6.  Rekod disimpan; dashboard dan paparan Admin dikemas kini; toast
+  1093→    pengesahan dipaparkan.
+  1094→
+  1095→13.2 Permohonan dan kelulusan cuti
+  1096→
+  1097→1.  Guru mengisi borang cuti; sistem mengira hari berkesan dan menyemak
+  1098→    baki.
+  1099→
+  1100→2.  Permohonan berstatus Menunggu; notifikasi dihantar kepada pelulus.
+  1101→
+  1102→3.  Pelulus membuka senarai kelulusan, meneliti butiran, memilih Lulus
+  1103→    atau Tolak dan menulis catatan.
+  1104→
+  1105→4.  Jika Lulus: baki ditolak, rekod kehadiran tarikh berkenaan ditanda
+  1106→    “Cuti”/“Tugas Rasmi”; notifikasi dihantar kepada pemohon.
+  1107→
+  1108→5.  Semua langkah direkod dalam log audit.
+  1109→
+  1110→13.3 Pindaan manual dan Tutup Hari
+  1111→
+  1112→1.  Admin membuka Pengurusan Kehadiran dan memilih tarikh serta staf.
+  1113→
+  1114→2.  Admin menambah/meminda rekod dan wajib memasukkan alasan.
+  1115→
+  1116→3.  Sistem menyimpan nilai lama/baharu dalam log audit dan memberitahu
+  1117→    staf berkenaan.
+  1118→
+  1119→4.  Pada penghujung hari, Admin menjalankan Tutup Hari untuk menetapkan
+  1120→    status Tidak Hadir bagi staf tanpa rekod.
+  1121→
+  1122→14. Pelan Pembangunan dan Fasa
+  1123→
+  1124→  -------------------------------------------------------------------------
+  1125→  Fasa          Tempoh   Aktiviti dan penghantaran        Keluaran
+  1126→  ------------- -------- -------------------------------- -----------------
+  1127→  Fasa 0 –      Minggu 1 Sahkan peraturan perniagaan      PRD diluluskan,
+  1128→  Persediaan             (Bahagian 9), kumpul logo/kepala repositori kosong
+  1129→                         surat, sediakan akaun z.ai,      
+  1130→                         persekitaran Node.js dan         
+  1131→                         repositori Git, sahkan PRD       
+  1132→
+  1133→  Fasa 1 – Asas Minggu 2 Penyediaan projek Vite+React+TS, Log masuk
+  1134→                         susun atur, penghalaan, log      berfungsi, data
+  1135→                         masuk/RBAC, lapisan data dan     benih dimuatkan
+  1136→                         benih                            
+  1137→
+  1138→  Fasa 2 –      Minggu 3 Daftar masuk/keluar, Kehadiran   Aliran kehadiran
+  1139→  Kehadiran              Saya, Kiosk, logik lewat,        lengkap
+  1140→  teras                  dashboard                        
+  1141→
+  1142→  Fasa 3 – Cuti Minggu 4 Permohonan/kelulusan cuti, baki, Modul cuti dan
+  1143→  dan laporan            kebenaran keluar, laporan,       laporan
+  1144→                         eksport CSV/cetak                
+  1145→
+  1146→  Fasa 4 – Data Minggu 5 Pengurusan                       Prototaip lengkap
+  1147→  induk dan              staf/jabatan/kalendar/tetapan,   
+  1148→  kemasan                audit, notifikasi,               
+  1149→                         kebolehcapaian dan prestasi      
+  1150→
+  1151→  Fasa 5 – UAT  Minggu 6 Ujian penerimaan pengguna dengan Laporan UAT,
+  1152→                         5–8 wakil, pembetulan,           keputusan
+  1153→                         demonstrasi kepada pengurusan    teruskan/tidak
+  1154→  -------------------------------------------------------------------------
+  1155→
+  1156→Anggaran tempoh bersifat konservatif; penggunaan AI mungkin memendekkan
+  1157→pembangunan, tetapi masa tambahan diperuntukkan untuk semakan manual,
+  1158→ujian dan maklum balas pengguna.
+  1159→
+  1160→14.1 Definisi “Siap” (Definition of Done)
+  1161→
+  1162→-   Keperluan berkaitan lulus kriteria penerimaan dan UAT.
+  1163→
+  1164→-   Tiada ralat kritikal dalam konsol; lulus lint dan ujian unit.
+  1165→
+  1166→-   Responsif pada 360 px, 768 px dan 1280 px.
+  1167→
+  1168→-   Teks dalam BM semakan dan tiada rentetan Inggeris tertinggal.
+  1169→
+  1170→-   Kod di-commit dengan mesej bermakna dan README dikemas kini.
+  1171→
+  1172→15. Strategi Pembangunan Menggunakan z.ai (GLM 5.2)
+  1173→
+  1174→Model bahasa terbaik apabila diberi tugas kecil, konteks jelas dan
+  1175→kriteria semakan. Strategi berikut mengelakkan kod bercampur-aduk dan
+  1176→memudahkan semakan oleh pentadbir yang tidak semestinya pengatur cara.
+  1177→
+  1178→15.1 Prinsip kerja
+  1179→
+  1180→-   Bina berperingkat mengikut Fasa dalam Bahagian 14; satu modul bagi
+  1181→    satu sesi/prompt.
+  1182→
+  1183→-   Rujuk ID keperluan (cth. “laksanakan FR-B01 hingga FR-B05”) supaya
+  1184→    hasil selari dengan PRD.
+  1185→
+  1186→-   Minta rancangan dahulu, kemudian kod; semak sebelum meneruskan.
+  1187→
+  1188→-   Tetapkan versi pustaka dan struktur folder supaya kod konsisten.
+  1189→
+  1190→-   Minta ujian untuk logik domain (kiraStatus, bakiCuti) bersama setiap
+  1191→    fungsi.
+  1192→
+  1193→-   Commit Git selepas setiap fasa; jika AI merosakkan sesuatu, boleh
+  1194→    kembali ke versi baik.
+  1195→
+  1196→-   Jangan tampal data sebenar (nama, No. K/P staf) ke dalam sebarang
+  1197→    alat AI.
+  1198→
+  1199→15.2 Prompt induk (tampal pada permulaan projek)
+  1200→
+  1201→  Anda ialah Jurutera Perisian Senior. Bantu saya membina prototaip
+  1202→
+  1203→  "Sistem Rekod Kehadiran Guru dan Staf" untuk Sekolah Rendah Islam
+  1204→
+  1205→  Al-Amin Gombak, Selangor, Malaysia.
+  1206→
+  1207→  KONTEKS: Saya mempunyai PRD lengkap (akan saya tampal mengikut modul).
+  1208→
+  1209→  Semua teks antara muka mesti dalam Bahasa Malaysia.
+  1210→
+  1211→  TEKNOLOGI: React 18 + Vite + TypeScript, React Router v6, Tailwind
+  1212→  CSS,
+  1213→
+  1214→  shadcn/ui, React Hook Form + Zod, TanStack Query, Recharts, date-fns.
+  1215→
+  1216→  TIADA backend. Gunakan PANGKALAN DATA DUMMY: fail JSON benih dalam
+  1217→
+  1218→  src/data/seed dimuat ke localStorage, diakses HANYA melalui lapisan
+  1219→
+  1220→  src/services (simulasi kependaman 200-500 ms). Bina supaya lapisan
+  1221→
+  1222→  services boleh diganti dengan REST API kemudian tanpa ubah UI.
+  1223→
+  1224→  PERATURAN: kod bersih dan modular, logik perniagaan sebagai fungsi
+  1225→  tulen
+  1226→
+  1227→  di src/domain dengan ujian Vitest, mobile-first, WCAG AA, tiada rahsia
+  1228→
+  1229→  dalam kod, sepanduk 'Mod Demo - data rekaan'.
+  1230→
+  1231→  CARA KERJA: 1) ringkaskan pemahaman anda, 2) cadangkan rancangan fail
+  1232→
+  1233→  dan langkah, 3) tunggu saya setuju, 4) baru hasilkan kod fasa demi
+  1234→  fasa.
+  1235→
+  1236→15.3 Urutan prompt mengikut fasa
+  1237→
+  1238→  -----------------------------------------------------------------------
+  1239→  Fasa   Contoh arahan ringkas kepada AI                Rujukan PRD
+  1240→  ------ ---------------------------------------------- -----------------
+  1241→  1      Sediakan projek, susun atur aplikasi,          7.1, 7.8, 11
+  1242→         penghalaan dengan penjaga peranan, log masuk   
+  1243→         dan konteks sesi. Cipta jenis TypeScript untuk 
+  1244→         semua entiti dan fail benih 12 staf.           
+  1245→
+  1246→  2      Laksanakan FR-B01–B05 dan B09: butang daftar,  7.2, 9
+  1247→         logik Hadir/Lewat dalam                        
+  1248→         src/domain/kiraStatus.ts dengan ujian, halaman 
+  1249→         Kehadiran Saya dengan kalendar.                
+  1250→
+  1251→  2      Bina Dashboard Admin dan Guru (FR-D01–D04) dan 7.4, 7.2
+  1252→         mod Kiosk (FR-B06).                            
+  1253→
+  1254→  3      Bina modul cuti FR-C01–C07 termasuk pengiraan  7.3
+  1255→         hari berkesan dan kemas kini kehadiran         
+  1256→         automatik selepas lulus.                       
+  1257→
+  1258→  3      Bina laporan harian/bulanan/individu dengan    7.5
+  1259→         penapis dan eksport CSV serta paparan cetak.   
+  1260→
+  1261→  4      Bina CRUD staf, jabatan, kalendar, tetapan     7.6, 7.7
+  1262→         waktu kerja termasuk Ramadan dan Jumaat; log   
+  1263→         audit dan notifikasi.                          
+  1264→
+  1265→  4      Audit kebolehcapaian dan prestasi; baiki isu;  8
+  1266→         cadangkan penambahbaikan UX.                   
+  1267→
+  1268→  5      Tulis ujian untuk senario UAT dalam Bahagian   16
+  1269→         16 dan betulkan kegagalan.                     
+  1270→  -----------------------------------------------------------------------
+  1271→
+  1272→15.4 Semakan hasil AI
+  1273→
+  1274→-   Jalankan aplikasi selepas setiap langkah dan uji menggunakan akaun
+  1275→    demo setiap peranan.
+  1276→
+  1277→-   Semak sama ada logik Lewat, baki cuti dan pengiraan hari betul
+  1278→    dengan contoh tangan.
+  1279→
+  1280→-   Pastikan tiada pustaka tidak perlu atau berisiko; semak
+  1281→    kebergantungan (npm audit).
+  1282→
+  1283→-   Pastikan mesej ralat dan label dalam BM yang betul dan sopan.
+  1284→
+  1285→16. Pelan Ujian dan Kriteria Penerimaan (UAT)
+  1286→
+  1287→  ------------------------------------------------------------------------
+  1288→  ID      Senario                        Hasil dijangka
+  1289→  ------- ------------------------------ ---------------------------------
+  1290→  TC-01   Guru daftar masuk pada 07:20   Status Hadir; rekod direkod
+  1291→                                         dengan cap masa sistem
+  1292→
+  1293→  TC-02   Guru daftar masuk pada 08:05   Status Lewat; sistem meminta
+  1294→                                         sebab lewat
+  1295→
+  1296→  TC-03   Guru cuba daftar masuk kali    Ditolak dengan mesej jelas
+  1297→          kedua pada hari sama           
+  1298→
+  1299→  TC-04   Guru daftar keluar             Waktu keluar dan jam bekerja
+  1300→                                         dikira betul
+  1301→
+  1302→  TC-05   Staf menggunakan kiosk dengan  Mesej ralat; tiada rekod dicipta
+  1303→          PIN salah                      
+  1304→
+  1305→  TC-06   Guru memohon cuti sakit 2 hari Baki ditolak 2 hari; kehadiran
+  1306→          dan Pengetua meluluskan        dua hari ditanda Cuti; notifikasi
+  1307→                                         dihantar
+  1308→
+  1309→  TC-07   Permohonan cuti merangkumi     Hari berkesan tidak mengira
+  1310→          hujung minggu                  Sabtu/Ahad
+  1311→
+  1312→  TC-08   Guru cuba akses /staf melalui  Disekat dan dialih ke halaman
+  1313→          URL                            tiada akses
+  1314→
+  1315→  TC-09   Admin meminda rekod tanpa      Ditolak; alasan wajib
+  1316→          alasan                         
+  1317→
+  1318→  TC-10   Admin meminda rekod dengan     Rekod dikemas kini; log audit
+  1319→          alasan                         mengandungi nilai lama dan baharu
+  1320→
+  1321→  TC-11   Jana laporan bulanan Oktober   Data tepat dengan paparan; fail
+  1322→          dan eksport CSV                CSV boleh dibuka dalam Excel
+  1323→
+  1324→  TC-12   Jalankan Tutup Hari pada hari  Staf tanpa rekod/cuti menjadi
+  1325→          bekerja                        Tidak Hadir; cuti umum dilangkau
+  1326→
+  1327→  TC-13   Tukar waktu masuk ke 07:45     Pengiraan Lewat mengikut tetapan
+  1328→                                         baharu
+  1329→
+  1330→  TC-14   Set semula data demo           Data kembali kepada benih selepas
+  1331→                                         pengesahan dua langkah
+  1332→
+  1333→  TC-15   Buka aplikasi pada telefon 360 Susun atur sesuai, butang mudah
+  1334→          px                             ditekan, tiada tatal mendatar
+  1335→  ------------------------------------------------------------------------
+  1336→
+  1337→Kriteria lulus UAT: semua keperluan keutamaan “Mesti” lulus; tiada
+  1338→pepijat kritikal atau tinggi yang terbuka; skor kepuasan purata ≥ 4.0
+  1339→daripada sekurang-kurangnya lima penguji merangkumi pentadbir, guru dan
+  1340→staf sokongan.
+  1341→
+  1342→17. Risiko dan Mitigasi
+  1343→
+  1344→  --------------------------------------------------------------------------------
+  1345→  ID   Risiko                Kesan       Kebarangkalian   Mitigasi
+  1346→  ---- --------------------- ----------- ---------------- ------------------------
+  1347→  R1   Peraturan waktu dan   Sederhana   Sederhana        Sahkan dalam Fasa 0;
+  1348→       cuti tidak jelas atau                              semua parameter boleh
+  1349→       berubah                                            dikonfigurasi
+  1350→
+  1351→  R2   Kod yang dijana AI    Tinggi      Sederhana        Bina berperingkat, ujian
+  1352→       tidak konsisten atau                               unit, semakan manual,
+  1353→       mengandungi pepijat                                commit Git setiap fasa
+  1354→
+  1355→  R3   Data dummy dianggap   Sederhana   Rendah           Sepanduk mod demo,
+  1356→       data sebenar                                       penafian jelas, set
+  1357→                                                          semula data
+  1358→
+  1359→  R4   Data hilang kerana    Rendah      Sederhana        Fungsi eksport/import
+  1360→       localStorage dipadam  (demo)                       data demo; fail benih
+  1361→                                                          sebagai pemulihan
+  1362→
+  1363→  R5   Guru menolak          Tinggi      Sederhana        Latihan ringkas 30
+  1364→       penggunaan sistem                                  minit, panduan satu
+  1365→       baharu                                             halaman, pilot dengan
+  1366→                                                          kumpulan kecil
+  1367→
+  1368→  R6   Isu privasi apabila   Tinggi      Rendah           Larang data sebenar
+  1369→       data sebenar                                       dalam prototaip; pelan
+  1370→       dimasukkan                                         PDPA sebelum produksi
+  1371→
+  1372→  R7   Skop merebak          Sederhana   Tinggi           Kekalkan senarai luar
+  1373→       (biometrik,                                        skop; kelulusan
+  1374→       integrasi)                                         perubahan oleh Pengetua
+  1375→
+  1376→  R8   Penipuan masa (rakan  Sederhana   Sederhana        Fasa produksi: geofence,
+  1377→       mendaftarkan bagi                                  kiosk berpengawasan,
+  1378→       pihak)                                             audit; tidak selesai
+  1379→                                                          dalam prototaip
+  1380→
+  1381→  R9   Kebergantungan pada   Sederhana   Sederhana        Dokumentasi, README, kod
+  1382→       satu pembangun                                     bersih dan kongsi
+  1383→                                                          pengetahuan dengan admin
+  1384→                                                          sekolah
+  1385→  --------------------------------------------------------------------------------
+  1386→
+  1387→18. Andaian dan Kebergantungan
+  1388→
+  1389→18.1 Andaian
+  1390→
+  1391→-   Setiap guru dan staf mempunyai telefon pintar atau akses ke komputer
+  1392→    sekolah.
+  1393→
+  1394→-   Sekolah mempunyai sambungan internet asas untuk akses dan
+  1395→    pembangunan.
+  1396→
+  1397→-   Pihak pengurusan melantik seorang pemilik produk (admin sekolah) dan
+  1398→    beberapa penguji UAT.
+  1399→
+  1400→-   Peraturan waktu kerja dan cuti dalam Bahagian 9 akan disahkan
+  1401→    sebelum pembangunan.
+  1402→
+  1403→18.2 Kebergantungan
+  1404→
+  1405→-   Akaun dan akses aktif ke z.ai (model GLM 5.2) dan alat pembangunan
+  1406→    (Node.js LTS, Git, editor kod).
+  1407→
+  1408→-   Logo sekolah dan format kepala surat rasmi untuk laporan.
+  1409→
+  1410→-   Senarai rasmi cuti umum dan kalendar sekolah bagi tahun berkaitan.
+  1411→
+  1412→-   Kelulusan Pengetua bagi pelaksanaan pilot dan penggunaan sistem.
+  1413→
+  1414→19. Hala Tuju Selepas Prototaip
+  1415→
+  1416→  -----------------------------------------------------------------------
+  1417→  Fasa seterusnya  Penambahbaikan
+  1418→  ---------------- ------------------------------------------------------
+  1419→  Produksi 1       Backend (Node.js/NestJS atau Supabase/Firebase),
+  1420→                   pangkalan data PostgreSQL, pengesahan selamat, HTTPS,
+  1421→                   sandaran automatik
+  1422→
+  1423→  Produksi 2       Kod QR dinamik di pintu pejabat, geofence di sekitar
+  1424→                   sekolah, pengesahan peranti dipercayai
+  1425→
+  1426→  Produksi 3       Notifikasi emel/WhatsApp, laporan berjadual, eksport
+  1427→                   XLSX berformat, PWA
+  1428→
+  1429→  Lanjutan         Integrasi sistem gaji/HR, analitik lanjutan,
+  1430→                   pengurusan guru ganti (relief), kehadiran murid
+  1431→
+  1432→  Pematuhan        Penilaian impak privasi dan dasar PDPA, dasar kekalan
+  1433→                   data, kawalan akses dan latihan pengguna
+  1434→  -----------------------------------------------------------------------
+  1435→
+  1436→20. Glosari
+  1437→
+  1438→  -----------------------------------------------------------------------
+  1439→  Istilah             Maksud
+  1440→  ------------------- ---------------------------------------------------
+  1441→  PRD                 Product Requirement Document – dokumen keperluan
+  1442→                      produk
+  1443→
+  1444→  SPA                 Single Page Application – aplikasi web satu halaman
+  1445→
+  1446→  RBAC                Role-Based Access Control – kawalan akses
+  1447→                      berasaskan peranan
+  1448→
+  1449→  Data dummy / benih  Data rekaan yang dimuatkan untuk ujian dan
+  1450→  (seed)              demonstrasi
+  1451→
+  1452→  UAT                 User Acceptance Testing – ujian penerimaan pengguna
+  1453→
+  1454→  Kiosk               Skrin daftar kehadiran khas di pejabat/pondok
+  1455→                      pengawal
+  1456→
+  1457→  Geofence            Sempadan maya lokasi untuk mengesahkan pengguna
+  1458→                      berada di kawasan sekolah
+  1459→
+  1460→  MoSCoW              Kaedah keutamaan: Mesti, Patut, Boleh, Tidak
+  1461→                      sekarang
+  1462→
+  1463→  PDPA                Akta Perlindungan Data Peribadi 2010 (Akta 709),
+  1464→                      Malaysia
+  1465→
+  1466→  GPK / HEM           Guru Penolong Kanan / Hal Ehwal Murid
+  1467→
+  1468→  PI                  Pendidikan Islam
+  1469→  -----------------------------------------------------------------------
+  1470→
+  1471→21. Kelulusan Dokumen
+  1472→
+  1473→Dengan menandatangani di bawah, pihak berkenaan mengesahkan bahawa
+  1474→mereka telah menyemak dan bersetuju dengan keperluan dalam dokumen ini.
+  1475→
+  1476→  -------------------------------------------------------------------------
+  1477→  Peranan                Nama                Tandatangan       Tarikh
+  1478→  ---------------------- ------------------- ----------------- ------------
+  1479→  Pengetua / Guru Besar                                        
+  1480→
+  1481→  Penolong Kanan                                               
+  1482→  Pentadbiran                                                  
+  1483→
+  1484→  Pentadbir (Pemilik                                           
+  1485→  Produk)                                                      
+  1486→
+  1487→  Jurutera Perisian                                            
+  1488→  -------------------------------------------------------------------------
+  1489→

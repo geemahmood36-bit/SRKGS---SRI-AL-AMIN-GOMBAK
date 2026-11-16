@@ -1,0 +1,196 @@
+// Sistem Rekod Kehadiran Guru dan Staf (SRKGS)
+// Sekolah Rendah Islam Al-Amin Gombak
+// Pangkalan data dummy (SQLite) — boleh diganti dengan pangkalan data sebenar kemudian.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Data Induk ───────────────────────────────────────────────────────────
+
+model Jabatan {
+  id      String  @id
+  nama    String
+  kod     String  @unique
+  ketuaId String?
+
+  staf Staf[]
+}
+
+model JenisCuti {
+  id               String  @id
+  nama             String
+  kelayakanTahunan Float
+  perluLampiran    Boolean @default(false)
+
+  permohonan PermohonanCuti[]
+  baki       BakiCuti[]
+}
+
+model Staf {
+  id                String   @id
+  noIdStaf          String   @unique
+  nama              String
+  noKpSamar         String
+  jantina           String   // "L" | "P"
+  jawatan           String
+  kategori          String   // "Guru" | "StafSokongan" | "Pentadbiran"
+  jabatanId         String?
+  emel              String?
+  telefon           String?
+  tarikhLantik      DateTime?
+  peranan           String   // "Admin" | "Pengetua" | "Penyelia" | "Guru" | "Kiosk"
+  kataLaluanHash    String
+  pin               String?  // PIN kiosk 4 digit
+  aktif             Boolean  @default(true)
+  perluTukarLaluan  Boolean  @default(false)
+  createdA          DateTime @default(now())
+
+  jabatan         Jabatan?          @relation(fields: [jabatanId], references: [id])
+  kehadiran       Kehadiran[]
+  permohonanCuti  PermohonanCuti[]
+  kebenaranKeluar KebenaranKeluar[]
+  notifikasi      Notifikasi[]
+  bakiCuti        BakiCuti[]
+  sesi            Sesi[]
+  auditSebagai    LogAudit[] @relation("AuditPelaku")
+}
+
+// ─── Kehadiran ────────────────────────────────────────────────────────────
+
+model Kehadiran {
+  id            String    @id
+  stafId        String
+  tarikh        DateTime  // tarikh (tanpa masa)
+  masaMasuk     DateTime?
+  masaKeluar    DateTime?
+  status        String    // "Hadir" | "Lewat" | "TidakHadir" | "Cuti" | "TugasRasmi" | "CutiUmum"
+  sebabLewat    String?
+  catatan       String?
+  sumber        String    // "Sendiri" | "Kiosk" | "Admin"
+  jamBekerja    Float?
+  dikemaskiniOleh String?
+
+  staf Staf @relation(fields: [stafId], references: [id])
+
+  @@unique([stafId, tarikh])
+}
+
+// ─── Cuti ─────────────────────────────────────────────────────────────────
+
+model PermohonanCuti {
+  id               String    @id
+  stafId           String
+  jenisCutiId      String
+  tarikhMula       DateTime
+  tarikhAkhir      DateTime
+  separuhHari      Boolean   @default(false)
+  bilHari          Float
+  sebab            String
+  lampiranNama     String?
+  status           String    // "Menunggu" | "Diluluskan" | "Ditolak" | "Dibatalkan"
+  diputuskanOleh   String?
+  catatanKeputusan String?
+  tarikhKeputusan  DateTime?
+  dicipta          DateTime  @default(now())
+
+  staf      Staf      @relation(fields: [stafId], references: [id])
+  jenisCuti JenisCuti @relation(fields: [jenisCutiId], references: [id])
+}
+
+model KebenaranKeluar {
+  id             String    @id
+  stafId         String
+  tarikh         DateTime
+  masaKeluar     String
+  masaKembali    String
+  sebab          String
+  status         String    // "Menunggu" | "Diluluskan" | "Ditolak"
+  diputuskanOleh String?
+  dicipta        DateTime  @default(now())
+
+  staf Staf @relation(fields: [stafId], references: [id])
+}
+
+model BakiCuti {
+  id           String  @id
+  stafId       String
+  jenisCutiId  String
+  tahun        Int
+  layak        Float
+  digunakan    Float   @default(0)
+
+  staf      Staf      @relation(fields: [stafId], references: [id])
+  jenisCuti JenisCuti @relation(fields: [jenisCutiId], references: [id])
+
+  @@unique([stafId, jenisCutiId, tahun])
+}
+
+// ─── Kalendar & Tetapan ───────────────────────────────────────────────────
+
+model Kalendar {
+  id      String  @id
+  tarikh  DateTime
+  nama    String
+  jenis   String  // "CutiUmum" | "CutiSekolah" | "HariKhas"
+}
+
+model Tetapan {
+  id                 Int      @id @default(1)
+  waktuMasuk         String   @default("07:30")
+  bertolakAnsurMinit Int      @default(15)
+  waktuTamat         String   @default("15:30")
+  waktuTamatJumaat   String   @default("12:30")
+  hariBekerja        String   @default("1,2,3,4,5") // Isnin=1..Ahad=7
+  ramadanAktif       Boolean  @default(false)
+  ramadanMula        DateTime?
+  ramadanTamat       DateTime?
+  ramadanMasukWaktu String   @default("08:00")
+  ramadanTamatWaktu String   @default("13:00")
+  aliranDuaPeringkat Boolean  @default(false)
+  sekolahNama        String   @default("Sekolah Rendah Islam Al-Amin Gombak")
+  sekolahAlamat      String   @default("Gombak, Selangor Darul Ehsan, Malaysia")
+}
+
+// ─── Notifikasi & Audit ───────────────────────────────────────────────────
+
+model Notifikasi {
+  id         String   @id
+  penerimaId String
+  tajuk      String
+  mesej      String
+  dibaca     Boolean  @default(false)
+  dicipta    DateTime @default(now())
+
+  penerima Staf @relation(fields: [penerimaId], references: [id])
+}
+
+model LogAudit {
+  id          String   @id
+  penggunaId  String?
+  tindakan    String
+  entiti      String
+  entitiId    String?
+  nilaiLama   String?
+  nilaiBaharu String?
+  capMasa     DateTime @default(now())
+
+  pengguna Staf? @relation("AuditPelaku", fields: [penggunaId], references: [id])
+}
+
+// ─── Sesi ─────────────────────────────────────────────────────────────────
+
+model Sesi {
+  id        String   @id
+  stafId    String
+  token     String   @unique
+  dicipta   DateTime @default(now())
+  tamat     DateTime
+
+  staf Staf @relation(fields: [stafId], references: [id])
+}
